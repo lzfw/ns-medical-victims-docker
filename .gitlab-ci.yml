@@ -11,7 +11,7 @@ run:
      # configure the PHP application
      # we might replace this later on by a script or read
      # the values from env in PHP config file
-     - ln -s /opt/config/zefiro-config.php ./zefiro/custom/config.php
+     - ln -s /opt/config/ns-medical-victims-config.php ./zefiro/custom/config.php
      - docker info
      - docker images
      - docker-compose up -d
@@ -34,7 +34,7 @@ upgrade:
      # configure the PHP application
      # we might replace this later on by a script or read
      # the values from env in PHP config file
-     - ln -s /opt/config/zefiro-config.php ./zefiro/custom/config.php
+     - ln -s /opt/config/ns-medical-victims-config.php ./zefiro/custom/config.php
      - docker info
      - docker images
      - docker-compose pull
