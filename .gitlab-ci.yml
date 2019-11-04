@@ -17,7 +17,7 @@ run:
      - ln -sfn /opt/config/ns-medical-victims-config.php ./zefiro/custom/config.php
      - docker info
      - docker images
-     - docker-compose up -d
+     - docker-compose up -d zefiro db phpmyadmin
      # TODO: Add success check
   environment:
     name: production
@@ -42,7 +42,7 @@ upgrade:
      - docker images
      - docker-compose pull
      - docker-compose build --pull --no-cache
-     - docker-compose up -d
+     - docker-compose up -d zefiro db phpmyadmin
      # TODO: Add success check
   environment:
     name: production
