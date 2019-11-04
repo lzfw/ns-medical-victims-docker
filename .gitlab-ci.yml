@@ -40,8 +40,8 @@ upgrade:
      - ln -fn /opt/config/ns-medical-victims-config.php ./zefiro/custom/config.php
      - docker info
      - docker images
-     - docker-compose pull
-     - docker-compose build --pull --no-cache zefiro db phpmyadmin
+     - docker-compose pull db phpmyadmin
+     - docker-compose build --pull --no-cache zefiro
      - docker-compose up -d zefiro db phpmyadmin
      # TODO: Add success check
   environment:
@@ -59,6 +59,21 @@ down:
   interruptible: false
   script:
     - docker-compose down
+  environment:
+    name: production
+    url: https://ns-medical-victims.org
+
+# restart containers
+restart:
+  retry: 2
+  tags:
+    - shell
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+     - docker-compose restart
   environment:
     name: production
     url: https://ns-medical-victims.org
