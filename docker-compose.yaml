@@ -63,6 +63,8 @@ services:
       PMA_HOST: db
       PMA_PORT: 3306
       PMA_ABSOLUTE_URI: 'https://${NMV_PMA_HOSTNAME:-mysql.ns-medical-victims.org}'
+    volumes:
+      - ./pma/upload-limits.ini:/usr/local/etc/php/conf.d/upload-limits.ini:ro
     networks:
       - default
       - proxy-network
