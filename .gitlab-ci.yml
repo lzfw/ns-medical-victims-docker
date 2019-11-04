@@ -16,6 +16,9 @@ run:
      - docker images
      - docker-compose up -d
      # TODO: Add success check
+  environment:
+    name: production
+    url: https://ns-medical-victims.org
 
 # load the latest image from the docker registry,
 # build and if neccessary re-create the container
@@ -38,6 +41,9 @@ upgrade:
      - docker-compose build --pull --no-cache
      - docker-compose up -d
      # TODO: Add success check
+  environment:
+    name: production
+    url: https://ns-medical-victims.org
 
 # vim: tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
