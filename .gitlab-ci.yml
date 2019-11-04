@@ -48,5 +48,20 @@ upgrade:
     name: production
     url: https://ns-medical-victims.org
 
+# stop and tear down containers
+down:
+  retry: 2
+  tags:
+    - shell
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+    - docker-compose down
+  environment:
+    name: production
+    url: https://ns-medical-victims.org
+
 # vim: tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
