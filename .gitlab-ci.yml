@@ -41,7 +41,7 @@ upgrade:
      - docker info
      - docker images
      - docker-compose pull
-     - docker-compose build --pull --no-cache
+     - docker-compose build --pull --no-cache zefiro db phpmyadmin
      - docker-compose up -d zefiro db phpmyadmin
      # TODO: Add success check
   environment:
