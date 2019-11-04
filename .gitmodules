@@ -1,0 +1,3 @@
+[submodule "zefiro"]
+	path = zefiro
+	url = ../ns-medical-victims.git
