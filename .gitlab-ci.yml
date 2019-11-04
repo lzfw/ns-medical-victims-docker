@@ -1,0 +1,43 @@
+# run nmv, build or re-create the container if required
+run:
+  retry: 2
+  tags:
+    - shell
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+     # configure the PHP application
+     # we might replace this later on by a script or read
+     # the values from env in PHP config file
+     - ln -s /opt/config/zefiro-config.php ./zefiro/custom/config.php
+     - docker info
+     - docker images
+     - docker-compose up -d
+     # TODO: Add success check
+
+# load the latest image from the docker registry,
+# build and if neccessary re-create the container
+upgrade:
+  retry: 2
+  tags:
+    - shell
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+     # configure the PHP application
+     # we might replace this later on by a script or read
+     # the values from env in PHP config file
+     - ln -s /opt/config/zefiro-config.php ./zefiro/custom/config.php
+     - docker info
+     - docker images
+     - docker-compose pull
+     - docker-compose build --pull --no-cache
+     - docker-compose up -d
+     # TODO: Add success check
+
+# vim: tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
+
