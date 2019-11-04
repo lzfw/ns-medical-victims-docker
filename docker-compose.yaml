@@ -62,6 +62,7 @@ services:
       LETSENCRYPT_EMAIL: '${LETSENCRYPT_EMAIL}'
       PMA_HOST: db
       PMA_PORT: 3306
+      PMA_ABSOLUTE_URI: 'https://${NMV_PMA_HOSTNAME:-mysql.ns-medical-victims.org}'
     networks:
       - default
       - proxy-network
