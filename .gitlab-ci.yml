@@ -89,10 +89,10 @@ dump database:
   script:
      - docker-compose up -d db
      - NOW="$(date --utc +'%Y-%m-%d_%H:%M:%S_UTC')" \
-       DIR="/opt/backups/ns-medical-victims-docker/" \
+       && DIR="/opt/backups/ns-medical-victims-docker/" \
        && docker-compose exec -T db sh -c \
-       'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' \
-       | xz --stdout > "${DIR}${NOW}.sql.xz" \
+          'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' \
+          | xz --stdout > "${DIR}${NOW}.sql.xz" \
        && ln -sfr "${DIR}${NOW}.sql.xz" "${DIR}latest.sql.xz"
      - ls -lh /opt/backups/ns-medical-victims-docker/
   environment:
