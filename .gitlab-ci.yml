@@ -108,7 +108,9 @@ delete old backups:
   when: manual
   interruptible: false
   script:
+     - ls -lh /opt/backups/ns-medical-victims-docker/
      - find /opt/backups/ns-medical-victims-docker/* -mtime +31 -exec rm {} \;
+     - ls -lh /opt/backups/ns-medical-victims-docker/
   environment:
     name: production
     url: https://ns-medical-victims.org
