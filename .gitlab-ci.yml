@@ -99,5 +99,19 @@ backup database:
     name: production
     url: https://ns-medical-victims.org
 
+# create database dump
+delete old backups:
+  tags:
+    - shell
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+     - find /opt/backups/ns-medical-victims-docker/* -mtime +31 -exec rm {} \;
+  environment:
+    name: production
+    url: https://ns-medical-victims.org
+
 # vim: tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
