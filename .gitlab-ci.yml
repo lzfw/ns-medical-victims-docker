@@ -78,5 +78,22 @@ restart:
     name: production
     url: https://ns-medical-victims.org
 
+# create database dump
+dump database:
+  tags:
+    - shell
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+     - docker-compose up -d db
+     - docker-compose exec db sh -c \
+      'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' \
+      | xz --stdout > "/opt/backups/ns-medical-victims-docker/$(date --utc +'%Y-%m-%d_%H:%M:%S_UTC').sql.xz"
+  environment:
+    name: production
+    url: https://ns-medical-victims.org
+
 # vim: tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
