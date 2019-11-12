@@ -91,6 +91,7 @@ dump database:
      - docker-compose exec -T db sh -c \
       'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"' \
       | xz --stdout > "/opt/backups/ns-medical-victims-docker/$(date --utc +'%Y-%m-%d_%H:%M:%S_UTC').sql.xz"
+     - ls -lh /opt/backups/ns-medical-victims-docker/
   environment:
     name: production
     url: https://ns-medical-victims.org
