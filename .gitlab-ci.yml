@@ -41,7 +41,7 @@ load database:
      - DIR="/opt/backups/ns-medical-victims-docker/"
        && xz --stdout --force --keep --verbose --decompress
          "${DIR}latest.sql.xz"
-         | docker exec -i "$(docker-compose ps -q db)" sh -c 
+         | docker exec -i "$(docker-compose -p ns-medical-victims-staging ps -q db)" sh -c 
                   'mysql -uroot -p"$MYSQL_ROOT_PASSWORD"'
   environment:
     name: staging
