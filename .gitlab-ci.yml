@@ -43,6 +43,8 @@ load database:
          "${DIR}latest.sql.xz"
          | docker exec -i "$(docker-compose -p ns-medical-victims-staging ps -q db)" sh -c 
                   'mysql -uroot -p"$MYSQL_ROOT_PASSWORD"'
+     - docker-compose exec -T db sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e
+            "FLUSH PRIVILEGES;"'
   environment:
     name: staging
     url: https://staging.ns-medical-victims.org
