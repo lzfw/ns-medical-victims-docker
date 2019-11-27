@@ -1,11 +1,58 @@
+stages:
+  - staging
+  - production
+
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
 
 # run nmv, build or re-create the container if required
+deploy-staging:
+  retry: 2
+  stage: staging
+  tags:
+    - shell-staging
+  only:
+    - master
+  interruptible: false
+  script:
+     # configure the PHP application
+     # we might replace this later on by a script or read
+     # the values from env in PHP config file
+     - ln -fn /opt/config/ns-medical-victims-config-staging.php ./zefiro/custom/config.php
+     - docker info
+     - docker images
+     - docker-compose -p ns-medical-victims-staging up -d zefiro db phpmyadmin
+     # TODO: Add success check
+  environment:
+    name: staging
+    url: https://staging.ns-medical-victims.org
+
+# load database from dump
+load database:
+  stage: staging
+  tags:
+    - shell-staging
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+     - docker-compose -p ns-medical-victims-staging up -d db
+     - DIR="/opt/backups/ns-medical-victims-docker/"
+       && xz --stdout --force --keep --verbose --decompress
+         "${DIR}latest.sql.xz"
+         | docker exec -i "$(docker-compose ps -q db)" sh -c 
+                  'mysql -uroot -p"$MYSQL_ROOT_PASSWORD"'
+  environment:
+    name: staging
+    url: https://staging.ns-medical-victims.org
+
+# run nmv, build or re-create the container if required
 run:
   retry: 2
+  stage: production
   tags:
-    - shell
+    - shell-production
   only:
     - master
   when: manual
@@ -27,8 +74,9 @@ run:
 # build and if neccessary re-create the container
 upgrade:
   retry: 2
+  stage: production
   tags:
-    - shell
+    - shell-production
   only:
     - master
   when: manual
@@ -51,8 +99,9 @@ upgrade:
 # stop and tear down containers
 down:
   retry: 2
+  stage: production
   tags:
-    - shell
+    - shell-production
   only:
     - master
   when: manual
@@ -66,8 +115,9 @@ down:
 # restart containers
 restart:
   retry: 2
+  stage: production
   tags:
-    - shell
+    - shell-production
   only:
     - master
   when: manual
@@ -80,8 +130,9 @@ restart:
 
 # create database dump
 backup database:
+  stage: production
   tags:
-    - shell
+    - shell-production
   only:
     - master
   when: manual
@@ -101,8 +152,9 @@ backup database:
 
 # create database dump
 delete old backups:
+  stage: production
   tags:
-    - shell
+    - shell-production
   only:
     - master
   when: manual
