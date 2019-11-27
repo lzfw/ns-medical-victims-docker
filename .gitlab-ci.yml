@@ -16,6 +16,7 @@ update-submodule:
   interruptible: false
   script:
      - eval $(ssh-agent -s)
+     - chmod 700 "$GIT_SSH_PRIV_KEY"
      - ssh-add "$GIT_SSH_PRIV_KEY"
      - git config user.email "git@leo9000.de"
      - git config user.name "Leo9000 (Gitlab)"
