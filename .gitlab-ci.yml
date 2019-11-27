@@ -21,6 +21,7 @@ update-submodule:
      - git config user.email "git@leo9000.de"
      - git config user.name "Leo9000 (Gitlab)"
      - git remote set-url origin git@git.leo9000.de:mpg-hirnforschung/ns-medical-victims-docker.git
+     - git fetch --all && git checkout master && git reset --hard origin/master
      - cd zefiro
         && git fetch --all
         && git checkout origin/master
