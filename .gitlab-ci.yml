@@ -1,9 +1,35 @@
 stages:
+  - development
   - staging
   - production
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
+
+update-submodule:
+  stage: development
+  tags:
+    - shell-build-test
+  only:
+    - master
+  when: manual
+  interruptible: false
+  script:
+     # configure the PHP application
+     # we might replace this later on by a script or read
+     # the values from env in PHP config file
+     - ssh-add <(cat "$GIT_SSH_PRIV_KEY")
+     - git config user.email "git@leo9000.de"
+     - git config user.name "Leo9000 (Gitlab)"
+     - git remote set-url origin git@git.leo9000.de:mpg-hirnforschung/ns-medical-victims-docker.git
+     - cd zefiro
+        && git fetch --all
+        && git checkout origin/master
+        && CMS_COMMIT=$(git rev-parse --short HEAD)
+        && cd ..
+        && git commit -m "Update CMS to ${CMS_COMMIT}"
+        && git push -u origin master
+     # TODO: Add success check
 
 # run nmv, build or re-create the container if required
 deploy-staging:
