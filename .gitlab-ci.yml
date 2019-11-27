@@ -16,7 +16,7 @@ update-submodule:
   interruptible: false
   script:
      - eval $(ssh-agent -s)
-     - ssh-add <(cat "$GIT_SSH_PRIV_KEY")
+     - ssh-add "$GIT_SSH_PRIV_KEY"
      - git config user.email "git@leo9000.de"
      - git config user.name "Leo9000 (Gitlab)"
      - git remote set-url origin git@git.leo9000.de:mpg-hirnforschung/ns-medical-victims-docker.git
@@ -28,6 +28,8 @@ update-submodule:
         && git commit -m "Update CMS to ${CMS_COMMIT}"
         && git push -u origin master
      # TODO: Add success check
+  environment:
+    name: build-test
 
 # run nmv, build or re-create the container if required
 deploy-staging:
