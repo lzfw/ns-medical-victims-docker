@@ -26,6 +26,7 @@ update-submodule:
         && git checkout origin/master
         && CMS_COMMIT=$(git rev-parse --short HEAD)
         && cd ..
+        && git add zefiro
         && git commit -m "Update CMS to ${CMS_COMMIT}"
         && git push -u origin master
      # TODO: Add success check
