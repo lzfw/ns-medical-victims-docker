@@ -20,12 +20,13 @@ DELETE_OLD_BACKUPS="${CONTAINER_NAME_PATTERN:-true}"
 # Variable will be initialized with proper values later but must not be empty
 TEMP_BACKUP_FILE=/tmp/does_no_exist
 
-info() { printf "\n%s %s\n\n" "$( date )" "$*" >&2; }
+info() { printf "\n%s %s\n\n" "$( date )" "$*" >&1; }
+err() { printf "\n%s %s\n\n" "$( date )" "$*" >&2; }
 exit_script() {
   if [ ${BACKUP_EXIT} -eq 0 ]; then
     info "backup successful"
   else
-    info "backup error"
+    err "backup error"
     [ -f "${TEMP_BACKUP_FILE}" ] && rm -f "${TEMP_BACKUP_FILE}"
     sleep 2
   fi
@@ -34,14 +35,14 @@ exit_script() {
 
 # Validate variables
 [ -d "${BACKUP_DIR}" ] \
-  || ( info "Backup directory '${BACKUP_DIR}' does not exist." ; exit_script )
+  || ( err "Backup directory '${BACKUP_DIR}' does not exist." ; exit_script )
 
 CONTAINER_NAME=$(docker ps --filter "name=${CONTAINER_NAME_PATTERN}" --format "{{.Names}}") \
-  || ( info "No container matching pattern ${CONTAINER_NAME_PATTERN} found." ; exit_script )
+  || ( err "No container matching pattern ${CONTAINER_NAME_PATTERN} found." ; exit_script )
 
 NUMBER_OF_CONTAINERS=$(echo "${CONTAINER_NAME}"|wc -w)
 [ "$NUMBER_OF_CONTAINERS" -eq 1 ] \
-  || ( info "There are ${NUMBER_OF_CONTAINERS} running. Expected 1." ; exit_script )
+  || ( err "There are ${NUMBER_OF_CONTAINERS} running. Expected 1." ; exit_script )
 
 rm -rf "${BACKUP_DIR}/tmp.*"
 
