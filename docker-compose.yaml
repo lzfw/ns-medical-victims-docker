@@ -29,7 +29,7 @@ services:
     ports:
       - "${NMV_DEV_PORT}:80"
 
-  db:
+  db: &db
     image: mariadb:10.4
     restart: always
     environment:
@@ -41,6 +41,25 @@ services:
       - ./mysql:/etc/mysql/conf.d
       - mariadbdata:/var/lib/mysql
       - mariadblog:/var/log/mysql
+    networks:
+      default:
+      mpg-nmv:
+        aliases:
+          - db
+          - mpg-nmv-db-prod
+
+  db-staging:
+    <<: *db
+    networks:
+      default:
+        aliases:
+          - db
+          - db-staging
+      mpg-nmv-staging:
+        aliases:
+          - db
+          - db-staging
+          - mpg-nmv-db-staging
 
 #  adminer:
 #    image: adminer
@@ -102,6 +121,14 @@ volumes:
 #  sftpconfig:
 
 networks:
+  mpg-nmv:
+    name: global-mpg-nmv-network
+    # shared between the public access project
+    # https://git.leo9000.de/mpg-hirnforschung/ns-medical-victims-public
+  mpg-nmv-staging:
+    name: global-mpg-nmv-staging-network
+    # shared between the public access project
+    # https://git.leo9000.de/mpg-hirnforschung/ns-medical-victims-public
   proxy-network:
     name: global-proxy-network
     external: true
