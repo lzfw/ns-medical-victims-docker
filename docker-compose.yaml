@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile.prod
     restart: always
     depends_on:
-      - db
+      - "${INTERNAL_DB_HOST}"
     environment:
       VIRTUAL_HOST: '${NMV_HOSTNAME:-ns-medical-victims.org}'
       LETSENCRYPT_HOST: '${NMV_HOSTNAME:-ns-medical-victims.org}'
