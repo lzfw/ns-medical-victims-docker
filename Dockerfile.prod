@@ -28,6 +28,17 @@ RUN set -ex; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
 
+# increase max. execution time / timeouts
+RUN cd /etc/apache2/ && \
+	{ \
+		echo 'Timeout 600'; \
+	} > ./conf-available/docker-timeout.conf && \
+	ln -sf conf-available/docker-timeout.conf conf-enabled/docker-timeout.conf
+
+RUN { \
+		echo 'max_execution_time = 600'; \
+	} > /usr/local/etc/php/conf.d/docker-timeout.ini
+
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
