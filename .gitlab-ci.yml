@@ -69,7 +69,7 @@ load database:
      - docker-compose -p ns-medical-victims-staging up -d db-staging
      - sleep 5
      - docker-compose -p ns-medical-victims-staging exec -T db-staging sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e
-            "DROP DATABASE zefiro;"'
+            "DROP DATABASE IF EXISTS zefiro;"'
      - DIR="/opt/backups/ns-medical-victims-docker/"
        && xz --stdout --force --keep --verbose --decompress
          "${DIR}latest.sql.xz"
