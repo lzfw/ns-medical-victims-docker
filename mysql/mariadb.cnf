@@ -22,16 +22,16 @@ collation_server       = utf8mb4_unicode_ci
 innodb_file_per_table   = 1
 innodb_log_file_size    = 128MB
 innodb_flush_log_at_trx_commit = 2
-innodb_buffer_pool_size        = 256MB
+innodb_buffer_pool_size        = 384MB
 innodb_buffer_pool_instances   = 1
 innodb_thread_concurrency      = 32
 
 # "Aria" Table-Format wird implizit für temporäre Tabellen verwendet von MariaDB
-aria_pagecache_buffer_size = 256M
+aria_pagecache_buffer_size = 512M
 
-join_buffer_size    = 8M
-max_binlog_size     = 100M
-max_heap_table_size = 64M
+join_buffer_size    = 16M
+max_binlog_size     = 200M
+max_heap_table_size = 128M
 
 max_connections         = 500 
 connect_timeout         = 20
@@ -40,7 +40,7 @@ interactive_timeout     = 128800
 
 query_cache_type  = OFF
 query_cache_size  = 0
-sort_buffer_size  = 16M
+sort_buffer_size  = 32M
 
 slow_query_log      = 1
 long_query_time     = 5
