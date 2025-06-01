@@ -102,7 +102,7 @@ run:
      # TODO: Add success check
   environment:
     name: production
-    url: https://ns-medical-victims.org
+    url: https://interface.ns-medical-victims.org
 
 # load the latest image from the docker registry,
 # build and if neccessary re-create the container
@@ -128,7 +128,7 @@ upgrade:
      # TODO: Add success check
   environment:
     name: production
-    url: https://ns-medical-victims.org
+    url: https://interface.ns-medical-victims.org
 
 # stop and tear down containers
 down:
@@ -144,7 +144,7 @@ down:
     - docker-compose down
   environment:
     name: production
-    url: https://ns-medical-victims.org
+    url: https://interface.ns-medical-victims.org
 
 # restart containers
 restart:
@@ -160,7 +160,7 @@ restart:
      - docker-compose restart
   environment:
     name: production
-    url: https://ns-medical-victims.org
+    url: https://interface.ns-medical-victims.org
 
 # create database dump
 backup database:
@@ -182,7 +182,7 @@ backup database:
      - ls -lh /opt/backups/ns-medical-victims-docker/
   environment:
     name: production
-    url: https://ns-medical-victims.org
+    url: https://interface.ns-medical-victims.org
 
 # create database dump
 delete old backups:
@@ -199,7 +199,7 @@ delete old backups:
      - ls -lh /opt/backups/ns-medical-victims-docker/
   environment:
     name: production
-    url: https://ns-medical-victims.org
+    url: https://interface.ns-medical-victims.org
 
 # vim: tabstop=2 softtabstop=0 expandtab shiftwidth=2 smarttab
 
