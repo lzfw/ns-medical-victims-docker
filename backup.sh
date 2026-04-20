@@ -40,6 +40,10 @@ exit_script() {
 CONTAINER_NAME=$(docker ps --filter "name=${CONTAINER_NAME_PATTERN}" --format "{{.Names}}") \
   || ( err "No container matching pattern ${CONTAINER_NAME_PATTERN} found." ; exit_script )
 
+if [ -z "$CONTAINER_NAME" ]; then
+  err "No container matching pattern ${CONTAINER_NAME_PATTERN} found." ; exit_script
+fi
+
 NUMBER_OF_CONTAINERS=$(echo "${CONTAINER_NAME}"|wc -w)
 [ "$NUMBER_OF_CONTAINERS" -eq 1 ] \
   || ( err "There are ${NUMBER_OF_CONTAINERS} running. Expected 1." ; exit_script )
