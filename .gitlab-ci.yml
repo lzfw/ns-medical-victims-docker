@@ -50,7 +50,7 @@ deploy-staging:
      - ln -fn /opt/config/ns-medical-victims-config-staging.php ./zefiro/custom/config.php
      - docker info
      - docker images
-     - docker-compose -p ns-medical-victims-staging up -d zefiro db-staging phpmyadmin
+     - docker compose -p ns-medical-victims-staging up -d zefiro db-staging phpmyadmin
      # TODO: Add success check
   environment:
     name: staging
@@ -66,16 +66,16 @@ load database:
   when: manual
   interruptible: false
   script:
-     - docker-compose -p ns-medical-victims-staging up -d db-staging
+     - docker compose -p ns-medical-victims-staging up -d db-staging
      - sleep 5
-     - docker-compose -p ns-medical-victims-staging exec -T db-staging sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e
+     - docker compose -p ns-medical-victims-staging exec -T db-staging sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e
             "DROP DATABASE IF EXISTS zefiro;"'
      - DIR="/opt/backups/ns-medical-victims-docker/"
        && xz --stdout --force --keep --verbose --decompress
          "${DIR}latest.sql.xz"
-         | docker exec -i "$(docker-compose -p ns-medical-victims-staging ps -q db-staging)" sh -c 
+         | docker exec -i "$(docker compose -p ns-medical-victims-staging ps -q db-staging)" sh -c 
                   'mysql -uroot -p"$MYSQL_ROOT_PASSWORD"'
-     - docker-compose -p ns-medical-victims-staging exec -T db-staging sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e
+     - docker compose -p ns-medical-victims-staging exec -T db-staging sh -c 'mysql -uroot -p"$MYSQL_ROOT_PASSWORD" -e
             "FLUSH PRIVILEGES;"'
   environment:
     name: staging
@@ -98,7 +98,7 @@ run:
      - ln -fn /opt/config/ns-medical-victims-config.php ./zefiro/custom/config.php
      - docker info
      - docker images
-     - docker-compose up -d zefiro db phpmyadmin
+     - docker compose -p ns-medical-victims-docker up -d zefiro db phpmyadmin
      # TODO: Add success check
   environment:
     name: production
@@ -122,9 +122,9 @@ upgrade:
      - ln -fn /opt/config/ns-medical-victims-config.php ./zefiro/custom/config.php
      - docker info
      - docker images
-     - docker-compose pull db phpmyadmin
-     - docker-compose build --pull --no-cache zefiro
-     - docker-compose up -d zefiro db phpmyadmin
+     - docker compose -p ns-medical-victims-docker pull db phpmyadmin
+     - docker compose -p ns-medical-victims-docker build --pull --no-cache zefiro
+     - docker compose -p ns-medical-victims-docker up -d zefiro db phpmyadmin
      # TODO: Add success check
   environment:
     name: production
@@ -141,7 +141,7 @@ down:
   when: manual
   interruptible: false
   script:
-    - docker-compose down
+    - docker compose -p ns-medical-victims-docker down
   environment:
     name: production
     url: https://interface.ns-medical-victims.org
@@ -157,7 +157,7 @@ restart:
   when: manual
   interruptible: false
   script:
-     - docker-compose restart
+     - docker compose -p ns-medical-victims-docker restart
   environment:
     name: production
     url: https://interface.ns-medical-victims.org
@@ -172,10 +172,10 @@ backup database:
   when: manual
   interruptible: false
   script:
-     - docker-compose up -d db
+     - docker compose -p ns-medical-victims-docker up -d db
      - NOW="$(date --utc +'%Y-%m-%d_%H:%M:%S_UTC')"
        && DIR="/opt/backups/ns-medical-victims-docker/"
-       && docker-compose exec -T db sh -c
+       && docker compose -p ns-medical-victims-docker exec -T db sh -c
           'exec mysqldump --all-databases -uroot -p"$MYSQL_ROOT_PASSWORD"'
           | xz --stdout > "${DIR}${NOW}.sql.xz"
        && ln -sfr "${DIR}${NOW}.sql.xz" "${DIR}latest.sql.xz"

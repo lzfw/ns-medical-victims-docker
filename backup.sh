@@ -10,7 +10,7 @@ BACKUP_EXIT=1
 # Directory in which to perform the backup
 BACKUP_DIR="${BACKUP_DIR:-/opt/backups/ns-medical-victims-docker-cron}"
 # Service name of the MariaDB/MySQL container to backup
-CONTAINER_NAME_PATTERN="${CONTAINER_NAME_PATTERN:-ns-medical-victims-docker_db*}"
+CONTAINER_NAME_PATTERN="${CONTAINER_NAME_PATTERN:-^ns-medical-victims-docker[-_]db[-_][0-9]+$}"
 # Part that becomes the name of the dump file
 DUMP_FILE_BASE_NAME="nmv"
 # Whether to create backups
