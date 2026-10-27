@@ -71,7 +71,7 @@ services:
 #      - proxy-network
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin:latest
     restart: always
     environment:
       VIRTUAL_HOST: '${NMV_PMA_HOSTNAME:-mysql.ns-medical-victims.org}'
