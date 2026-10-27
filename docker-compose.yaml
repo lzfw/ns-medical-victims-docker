@@ -1,5 +1,3 @@
-version: '3.5'
-
 services:
   zefiro:
     image: zefiro-prod
